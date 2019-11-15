@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ArraySolution {
@@ -120,5 +117,83 @@ public class ArraySolution {
                 columnIndex = 0;
         int[] print = new int[row * column];
         return print;
+    }
+
+    /**
+     * 螺旋数组
+     *
+     * [
+     *  [ 1, 2, 3 ],
+     *  [ 4, 5, 6 ],
+     *  [ 7, 8, 9 ]
+     * ]
+     * @param matrix
+     * @return
+     */
+    public static List<Integer> spiralOrder(int[][] matrix) {
+        int h = matrix.length,w = matrix[0].length,hs = 0, ws = 0, time = 0;
+        int fx = 0; // 0 = left 1 = down 2 = right 3 = up
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0, len = h * w; i < len; i++) {
+            System.out.println(ws+ "," + hs+","+fx+","+h + "," + list.size());
+            list.add(matrix[hs][ws]);
+            if(fx == 0) { // 左方向
+                if (ws + 1 >= w) {
+                    fx = 1;
+                    hs++;
+                    continue;
+                }
+                ws++;
+                continue;
+            }
+            if (fx == 1) { // 下方向
+                if (hs + 1 >= h) {
+                    fx = 2;
+                    ws--;
+                    continue;
+                }
+                hs++;
+                continue;
+            }
+
+            if (fx == 2) { // 向右
+                if (ws <= time) {
+                    fx = 3;
+                    hs--;
+                    continue;
+                }
+                ws--;
+                continue;
+            }
+
+            if (fx == 3) {
+                if (hs - 1 <= time) {
+                    time++;
+                    if(h < 2){
+                        h = h - 2;
+                    }
+                    w = w - 2;
+                    ws = time;
+                    hs = time;
+                    fx = 0;
+                    continue;
+                }
+                hs--;
+                continue;
+            }
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        int[][] matrix = new int[10][10];
+        for (int i = 0; i < 10; i++) {
+            matrix[i] = new int[]{1,2,3,4,5,6,7,8,9,10};
+        }
+//        matrix[0] = new int[]{1,2,3};
+//        matrix[1] = new int[]{10,11,4};
+//        matrix[2] = new int[]{9,12,5};
+//        matrix[3] = new int[]{8,7,6};
+        spiralOrder(matrix).stream().forEach(x -> System.out.println(x));
     }
 }
