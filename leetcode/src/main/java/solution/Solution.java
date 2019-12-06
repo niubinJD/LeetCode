@@ -1,3 +1,5 @@
+package solution;
+
 import assist.ListNode;
 import assist.TreeNode;
 
@@ -721,4 +723,137 @@ public class Solution {
         }
     }
 
+    /**
+     * 141-环形链表
+     *
+     * @param head .
+     * @return .
+     */
+    public boolean hasCycle(ListNode head) {
+        Set<ListNode> set = new HashSet<>();
+        while (head != null) {
+            if (!set.add(head)) {
+                return true;
+            }
+            head = head.next;
+        }
+        return false;
+    }
+
+    /**
+     * 160-相交链表
+     *
+     * @param headA .
+     * @param headB .
+     * @return .
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode pA = headA, pB = headB;
+        while (pA != pB) {
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
+        }
+        return pA;
+    }
+
+    /**
+     * 258-各位相加
+     *
+     * @param num .
+     * @return .
+     */
+    public int addDigits(int num) {
+        while (num >= 10) {
+            String[] split = String.valueOf(num).split("");
+            num = 0;
+            for (String aSplit : split) {
+                num += Integer.valueOf(aSplit);
+            }
+        }
+        return num;
+    }
+
+    /**
+     * 217-存在重复元素
+     *
+     * @param nums .
+     * @return .
+     */
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (!set.add(num)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 219. 存在重复元素 II
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        for (int i = 0; i < nums.length; i++) {
+            if (i == nums.length - 1) {
+                continue;
+            }
+            for (int i1 = i + 1; i1 < nums.length; i1++) {
+                if (nums[i] == nums[i1]) {
+                    if (Math.abs(i - i1) <= k) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 226-翻转二叉树
+     *
+     * @param root .
+     * @return .
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode left = invertTree(root.right);
+        TreeNode right = invertTree(root.left);
+        root.left = left;
+        root.right = right;
+        return root;
+    }
+
+    /**
+     * 231-2的幂  -》 x的2次方n的二进制形式最高位是1,其他位为0。 n-1最高位是0,其他位为1 然后进行与运算(&)
+     * @param n .
+     * @return .
+     */
+    public static boolean isPowerOfTwo(int n) {
+        return n > 0 &&  0 == ((n-1) & n);
+    }
+
+    /**
+     * 206-反转链表
+     * @param head  .
+     * @return .
+     */
+    public ListNode reverseList(ListNode head) {
+        ListNode scp = null;
+        while (head != null) {
+            ListNode listNode = new ListNode(head.val);
+            listNode.next = scp;
+            scp = listNode;
+            head = head.next;
+        }
+        return scp;
+    }
 }
